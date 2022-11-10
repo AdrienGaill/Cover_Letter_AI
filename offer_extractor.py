@@ -11,7 +11,7 @@ from keyphrase_vectorizers import KeyphraseCountVectorizer
 from keybert import KeyBERT
 
 
-def offerExtractor(url: str):
+def offer_extractor(url: str):
     """Fetch data from link and returns a dict with labelled data"""
     res = {}
 
@@ -25,35 +25,19 @@ def offerExtractor(url: str):
     offerTitle = pagesoup.findAll('h1', {"class": "top-card-layout__title font-sans text-lg papabear:text-xl font-bold leading-open text-color-text mb-0 topcard__title"})[0].text.strip()
     res.update({"title": offerTitle})
 
-    print(type(pagesoup))
-    # Fetch offer's text
-    raw_text = pagesoup.findAll('div', {"class": "show-more-less-html__markup"})
+    # Fetch and clean offer's text
     text = ""
-    for elt in raw_text:
-        # print("Un elt", elt, type(elt))
-        test = elt.findAll('li')
-        for truc in test:
-            # print(truc, type(truc))
-            text += truc.text+"\n"
-    # text = repr(text)
-    # text.replace("\xe2\x80\x99", "'")
-    print(type(text))
-    print(text)
-    # res.update({"text": text})
-    # print("Original text: \n", text)
+    raw_text = pagesoup.find('div', {"class": "show-more-less-html__markup"})
+    for elt in raw_text.stripped_strings:
+        text += elt + " "
+    text = text.replace("  ", " ").replace(" . ", ". ").replace(" , ", ", ").lower()
+    res.update({"text": text})
 
     # Init default vectorizer.
     vectorizer = KeyphraseCountVectorizer()
-
-    # Print parameters
-    # print(vectorizer.get_params())
-
     document_keyphrase_matrix = vectorizer.fit_transform([text]).toarray()
-    # print(document_keyphrase_matrix)
-
     keyphrases = vectorizer.get_feature_names_out()
     res.update({"keyphrases": keyphrases})
-    # print("Keyphrases before KeyBERT:\n\n", keyphrases)
 
     # Init KeyBERT
     kw_model = KeyBERT()
@@ -62,4 +46,4 @@ def offerExtractor(url: str):
     return res
 
 
-print(offerExtractor("https://www.linkedin.com/jobs/view/3312551225/?alternateChannel=search&refId=DLl3pvTzJzCuMZfntlag%2FQ%3D%3D&trackingId=H14cMq68t4nN19PEVDEYbA%3D%3D&trk=d_flagship3_search_srp_jobs"))
+# print(offer_extractor("https://www.linkedin.com/jobs/view/3341568256/?alternateChannel=search&refId=QYh%2BjS4URfirSywQlvBYEQ%3D%3D&trackingId=OqKmUh10OQq6J1YAhsRL9g%3D%3D"))
