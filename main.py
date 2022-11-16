@@ -18,10 +18,12 @@ for kp in keyphrases:
     best_index = -1
     for i  in range(len(ref_words)):
         score = word_comparator(kp, ref_words[i])
-        if score > max_score:
+        # TODO finetune the threshold to select the best kw ?
+        if score > max_score and score > 0.39:
             max_score = score
             best_index = i
     if best_index >= 0:
         sorted_kp[best_index][1].append(kp)
 
-print(sorted_kp)
+# TODO choose sentence allocation given the sorted kw
+
