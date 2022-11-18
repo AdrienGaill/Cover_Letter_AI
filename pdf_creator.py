@@ -1,98 +1,58 @@
-from reportlab.pdfgen import canvas
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfbase import pdfmetrics
-from reportlab.lib import colors, pagesizes
 from datetime import date, datetime
 from reportlab.platypus import Paragraph, SimpleDocTemplate
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-styles=getSampleStyleSheet()
+from reportlab.lib.styles import ParagraphStyle
 
 fileName = 'Cover Letter Adrien Gaillard.pdf'
 elements = []
 # creating a pdf object
 pdf = SimpleDocTemplate(fileName)
-width, height = pagesizes.A4
-margin = 85
-line_break = 11
-current_y = height-margin
-fontsize = 11
 
-def linebreak():
-    global current_y
-    current_y -= fontsize
-    # print(round(current_y))
-
-# registering a external font in python
+# Registering external fonts
 pdfmetrics.registerFont(TTFont('Arial', 'Arial.ttf'))
 pdfmetrics.registerFont(TTFont("Arial bold", 'Arial_bold.ttf'))
 
-# creating the title by setting it's font 
-# and putting it on the canvas
-# title = "<para style={fontName=Arial, fontSize:14}>Adrien GAILLARD</para>"
+
+# Add title
 title = "Adrien GAILLARD"
-title_style = ParagraphStyle(name = "", fontsize = 14, fontName = "Arial bold")
+title_style = ParagraphStyle(name = "", fontSize = 14, fontName = "Arial bold", leading=14)
 title_para = Paragraph(title, style=title_style)
 elements.append(title_para)
-# pdf.build([title_para,])
 
-current_y -= 14
 
-documentTitle = fileName
+# Add references
 final_date = datetime.strftime(date.today(), "%B %d, %Y")
-    # TODO configure the date of document
 subtitle = f'''+33 631 651 529<br/>
     <a href=http://google.com>adrien.gaillard.pro@gmail.com</a><br/>
-    <a href=https://www.linkedin.com/in/AdrienGaillard/>My LinkedIn</a><br/>
+    My <a color="blue" href=https://www.linkedin.com/in/AdrienGaillard/>LinkedIn</a><br/>
     <br/>
-    {final_date}<br/>
+    {final_date}<br/><br/><br/>
     '''
-info_para = Paragraph(subtitle)
-elements.append(info_para)
-# pdf.build([info_para,])
+main_style = ParagraphStyle(name = "", fontSize = 11, fontName = "Arial")
+elements.append(Paragraph(subtitle, style=main_style))
 
-paragraphs = ["Le 1er.",
-    "Le 2e dfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
-    "Le 3e."
+
+# Add paraphrased paragraphs
+# TODO get paragraphs
+paragraphs = ["Dear Sir or Madam",
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    "    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    "    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
     ]
-image = 'signature_adrien.png'
-# (0, 0) at the bottom left of the page in point, 1 pt = 1/72 inch, max is (595 x 842)
-
-
-
-# creating the subtitle by setting it's font, 
-# colour and putting it on the canvas
-# pdf.setFont("Arial", 11)
-# TODO check how to line break
-# text = pdf.beginText(margin, current_y)
-# for line in para_infos:
-#     text.textLine(line)
-#     linebreak()
-# pdf.drawText(text)
-# pdf.drawText(para_infos)
-# pdf.drawText([para_infos])
-linebreak()
-
-
-# drawing a line
-# pdf.line(margin, current_y, width-margin, current_y) 
-linebreak()
-linebreak()
-
-# creating a multiline text using
-# textline and for loop
-# text = pdf.beginText(margin, current_y)
-# text.setFont("Arial", 11)
 for paragraph in paragraphs:
-    # text.textLine(paragraph)
-    linebreak()
-    # text.textLine()
-    linebreak()    
-# pdf.drawText(text)
+    elements.append(Paragraph(paragraph+"<br/><br/>", style=main_style))
 
 
-# drawing a image at the 
-# specified (x.y) position
-# pdf.drawInlineImage(image, 130, 100)
+# Add signature at the end
+image = '''
+    Adrien Gaillard<br/>
+    <img valign='text-top' src=./signature_adrien.png width='80' height='60'/>
+'''
+std_indented = ParagraphStyle(name="std_indented", fontName="Arial", fontSize=11, leftIndent=44, )
+signature = Paragraph(image, style=std_indented)
+elements.append(signature)
 
-# saving the pdf
+
+# Build every element and save the pdf
 pdf.build(elements)
