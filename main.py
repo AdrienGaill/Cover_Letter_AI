@@ -1,13 +1,13 @@
 from word_comparator import word_comparator
 from offer_extractor import offer_extractor
-from pdf_creator import letter_generator
+from text_functionalities import get_data_from_txt
+from word_comparator import word_comparator
+from pdf_creator import get_cover_letter
 
 """Main file to create an AI powered cover letter writting algorithm"""
 
 # Extract reference words from .txt file
-f = open("./word_list.txt", "r")
-ref_words = [x.strip() for x in f.readlines()]
-f.close()
+ref_words = get_data_from_txt("word_list.txt", "words")
 
 # Extract keyphrases from offer
 url = "https://www.linkedin.com/jobs/view/3341568256/?alternateChannel=search&refId=QYh%2BjS4URfirSywQlvBYEQ%3D%3D&trackingId=OqKmUh10OQq6J1YAhsRL9g%3D%3D"

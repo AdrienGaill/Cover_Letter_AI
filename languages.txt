@@ -1,0 +1,10 @@
+languages
+
+python
+react
+typescript
+nestjs
+mongodb
+nodejs
+javascript
+sql
