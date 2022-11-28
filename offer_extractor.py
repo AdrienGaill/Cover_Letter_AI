@@ -9,6 +9,9 @@ import urllib.request as ul
 from bs4 import BeautifulSoup as soup
 from keyphrase_vectorizers import KeyphraseCountVectorizer
 from keybert import KeyBERT
+import spacy
+
+nlp = spacy.load('en_core_web_lg')
 
 
 def offer_extractor(url: str):
@@ -21,7 +24,8 @@ def offer_extractor(url: str):
     client.close()
     pagesoup = soup(htmldata, "html.parser")
 
-    # Fetch offer's title
+    # TODO Format title correctly
+    # Fetch offer's title 
     offerTitle = pagesoup.findAll('h1', {"class": "top-card-layout__title font-sans text-lg papabear:text-xl font-bold leading-open text-color-text mb-0 topcard__title"})[0].text.strip()
     res.update({"title": offerTitle})
 
@@ -34,7 +38,7 @@ def offer_extractor(url: str):
     res.update({"text": text})
 
     # Init default vectorizer.
-    vectorizer = KeyphraseCountVectorizer()
+    vectorizer = KeyphraseCountVectorizer(spacy_pipeline='en_core_web_lg')
     document_keyphrase_matrix = vectorizer.fit_transform([text]).toarray()
     keyphrases = vectorizer.get_feature_names_out()
     res.update({"keyphrases": keyphrases})
@@ -43,6 +47,7 @@ def offer_extractor(url: str):
     kw_model = KeyBERT()
     res.update({"refined_keyphrases": kw_model.extract_keywords(docs=[text], vectorizer=KeyphraseCountVectorizer())})
 
+    # TODO handle emojis and apostrophs
     return res
 
 
