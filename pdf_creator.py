@@ -5,7 +5,7 @@ from reportlab.platypus import Paragraph, SimpleDocTemplate
 from reportlab.lib.styles import ParagraphStyle
 
 
-def letter_generator(paragraphs: list):
+def get_cover_letter(paragraphs: list):
     """ Generate the cover letter in a pdf file """
 
     fileName = 'Cover Letter Adrien Gaillard.pdf'
@@ -26,11 +26,14 @@ def letter_generator(paragraphs: list):
     title_para = Paragraph(title, style=title_style)
     elements.append(title_para)
 
+    #TODO Add GitHub link
     # Add references and date
     final_date = datetime.strftime(date.today(), "%B %d, %Y")
-    subtitle = f'''+33 631 651 529<br/>
+    subtitle = f'''
+        +33 631 651 529<br/>
         <a href=http://google.com>adrien.gaillard.pro@gmail.com</a><br/>
         My <a color="blue" href=https://www.linkedin.com/in/AdrienGaillard/>LinkedIn</a><br/>
+        My <a color="blue" href=https://github.com/AdrienGaill/>GitHub</a><br/>
         <br/>
         {final_date}<br/><br/><br/>
         '''

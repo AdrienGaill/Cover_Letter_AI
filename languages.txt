@@ -8,3 +8,5 @@ mongodb
 nodejs
 javascript
 sql
+html
+css
