@@ -3,14 +3,13 @@ import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 import spacy
-nlp = spacy.load('en_core_web_lg')
 
+nlp = spacy.load('en_core_web_lg')
 
 def word_comparator(group1: str, group2: str):
 
     """Returns the similarity score of the two input words
        Initially made for words but seems to work on noun groups"""
-
     if group1 == group2:
         return 1
    
@@ -25,7 +24,7 @@ def word_comparator(group1: str, group2: str):
         # print (token2.text, "Pas de vecteur")
         return 0
 
-    # TODO add a threshold to avert false similarity
-    return token1.similarity(token2)
+    score = token1.similarity(token2)
+    # print(token1.text, token2.text, score)
 
-# print(word_comparator("I like green", "gren is the colour I prefer"))
+    return score
