@@ -1,12 +1,12 @@
 languages
-
 python
+cc++
 react
 typescript
 nestjs
-mongodb
 nodejs
 javascript
-sql
 html
 css
+sql
+mongodb
