@@ -27,6 +27,8 @@ At first I wanted to paraphrase the custom sentences from the selected themes. I
 
 This algorithm currently only accept url of a LinkedIn job offer. It would be interesting to make it accept a text. The changes would be easy to implement, I might work on this in a near future.
 
+The theme sorting system could be improved. For now, it is highly biaised because it is based on custom words reflecting my view of only a few themes. Only 5 words are chosen for each theme which means that the scores obtained could reflect badly the ideas carried by the offer. In addition, each theme is given a base score reflecting the importance I give it, resulting in even more bias. The best option would be to change the score system, which would result in the training of a better model.
+
 ### Acknowledgements
 
 [https://towardsdatascience.com/how-to-paraphrase-text-using-python-73b40a8b7e66]
