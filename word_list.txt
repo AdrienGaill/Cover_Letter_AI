@@ -1,38 +1,53 @@
 dynamic
+5
 fast paced
 fast learner
 dynamic
 startup
-
+energetic
 
 challenge
+10
 challenge
 high expectation
 ambitious
 daring
-
+bold
 
 flexibility
+5
 flexible
 curiosity
 dynamic environment
 agile development
+adaptability
 
-
+autonomy
+3
 autonomy
 volonteer
 eager to learn
 proactive
 remote
 
+remote
+0
+remote
+telework
+distance
+online work
+home office
+
 team member
+5
 team
-
-
-
-
+coordination
+communication
+partner
+collaboration
 
 climate
+5
 climate
 carbon
 environment
@@ -40,12 +55,15 @@ global warming
 energy crisis
 
 engineer
+10
 engineer
 solve problem
 solution oriented
 outside the box
+analytical
 
 quality coder
+5
 years of experience
 high-quality code
 documentation
@@ -53,6 +71,7 @@ clean code
 git
 
 communication
+10
 communication
 empathy
 listening
@@ -60,8 +79,25 @@ understanding
 t-shape
 
 english
+15
 level of english
 proficient english
 english
 fluent english
 profesional english
+
+experience
+5
+work experience
+expertise
+years of experience
+profiency
+seasoned
+
+curiosity
+10
+curiosity
+eager to learn
+open minded
+discover
+various interests
