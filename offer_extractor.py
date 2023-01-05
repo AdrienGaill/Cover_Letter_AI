@@ -1,5 +1,6 @@
 # Prevent unwanted message from KeyphraseVectorizers
 from codecs import utf_8_encode
+from re import sub
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
@@ -21,13 +22,16 @@ def offer_extractor(url: str):
     req = ul.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
     client = ul.urlopen(req)
     htmldata = client.read()
-    client.close()
-    pagesoup = soup(htmldata, "html.parser")
 
-    # TODO Format title correctly
+    # Handle the unicode character \xe2\x80\x99 causing wrong encoding in UTF-8  
+    htmldata = sub(b'\xe2\x80\x99', b"'", htmldata)
+    client.close()
+    pagesoup = soup(htmldata, features="html.parser")
+
     # Fetch offer's title 
-    offerTitle = pagesoup.findAll('h1', {"class": "top-card-layout__title font-sans text-lg papabear:text-xl font-bold leading-open text-color-text mb-0 topcard__title"})[0].text.strip()
-    res.update({"title": offerTitle})
+    offer_title = pagesoup.findAll('h1', {"class": "top-card-layout__title font-sans text-lg papabear:text-xl font-bold leading-open text-color-text mb-0 topcard__title"})[0].text.strip()
+    offer_title = sub("\(.*\)", "", offer_title)
+    res.update({"title": offer_title})
 
     # Fetch and clean offer's text
     text = ""
@@ -47,8 +51,6 @@ def offer_extractor(url: str):
     kw_model = KeyBERT()
     res.update({"refined_keyphrases": kw_model.extract_keywords(docs=[text], vectorizer=KeyphraseCountVectorizer())})
 
-    # TODO handle emojis and apostrophs
+    # TODO handle emojis
     return res
 
-
-# print(offer_extractor("https://www.linkedin.com/jobs/view/3341568256/?alternateChannel=search&refId=QYh%2BjS4URfirSywQlvBYEQ%3D%3D&trackingId=OqKmUh10OQq6J1YAhsRL9g%3D%3D"))
