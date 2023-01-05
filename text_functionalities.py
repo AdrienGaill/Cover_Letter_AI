@@ -1,6 +1,3 @@
-from parrot import Parrot
-import torch
-import random
 import warnings
 warnings.filterwarnings("ignore")
 
@@ -8,8 +5,6 @@ warnings.filterwarnings("ignore")
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
-#Init models (make sure you init ONLY once if you integrate this to your code)
-parrot = Parrot(model_tag="parrot_paraphraser_on_T5", use_gpu=False)
 
 def text_slicer(text: str):
   """Split a paragraph after each dot in a list of sentences"""
@@ -43,11 +38,16 @@ def get_data_from_txt(file: str, data: str):
 
   if data == "words":
     result = [{"theme":"", "words":[], "score": 0}]
+
     for index in range(len(lines)):
-      if lines[index] == "\n":
+      if lines[index].strip().isnumeric():
+        result[-1]["score"]+=float(lines[index].strip())
+
+      elif lines[index] == "\n":
         if index == 0 or index == len(lines)-1 or lines[index+1] == "\n":
           # Surplus blankline ignored
           continue
+
         else:
           result.append({"theme":"", "words":[], "score": 0})
 
@@ -59,10 +59,12 @@ def get_data_from_txt(file: str, data: str):
 
   else:
     result = [{"theme":"", "sentences":[]}]
+
     for index in range(len(lines)):
       if lines[index] == "\n":
-        if index == 0 or lines[index-1] == "\n":
-          pass
+        if index == 0 or index == len(lines)-1 or lines[index+1] == "\n":
+          # Surplus blankline ignored
+          continue
 
         else:
           result.append({"theme":"", "sentences":[]})
@@ -76,21 +78,6 @@ def get_data_from_txt(file: str, data: str):
   return result
 
 
-# res = get_data_from_txt("sentences.txt", "sentences")
-# for elt in res:
-#   print(elt)
-
-
-def paraphraser(sentence: str):
-  """Papaphrase a sentence using parrot"""
-  para_phrases = parrot.augment(input_phrase=sentence, use_gpu=False, do_diverse=True)
-  # TODO figure what the number is 
-  # Select a random one among the results
-  new_sentence = random.choice(para_phrases)[0]
-  return new_sentence
-
-
-# TODO Fix the case of special words ? issue of React/react
 def text_finisher(sentences: list):
   """Format a list of strings in one paragraph : capitalize each sentence,
   replace the i by upper-case ones and each proper noun by its correct spelling"""
@@ -99,14 +86,9 @@ def text_finisher(sentences: list):
     sentence = sentence.capitalize()
     if sentence[-1] == ".":
       result += sentence + " "      
-    result += sentence + ". "
+    else:
+      result += sentence + ". "
   result = result.replace(" i ", " I ")
   result = result.replace(" i'm ", " I'm ")
-  # result.replace("react", "React")
   return result
 
-# assets = get_data_from_txt("assets.txt", "sentences")
-# for x in assets:
-#   print(x,"\n")
-#   for line in parrot.augment(input_phrase=x["sentences"][0], use_gpu=False, do_diverse=True):
-#     print(line)
