@@ -11,70 +11,52 @@ def text_slicer(text: str):
   return text.split(". ")
 
 
-def get_data_from_txt(file: str, data: str):
+def get_data_from_txt(file: str):
   """
-  Returns a list of dicts:
+  Returns a list of dicts from a .txt file:
     'theme' is the sentences' main idea
-    'sentences' or 'words' is the list of sentences/words related to the theme
-    if data is 'words' then the dicts also have 'score' which is the word comparison score of the theme
+    'data' is the list of sentences/words related to the theme
+    'score' is the word comparison score of the theme, it can have a base value to manually weight the theme
   File must follow this format:
     theme
-    sentences
+    (base score if wanted)
+    line of data
     ...
-    sentences
+    line of data
 
-    theme
-    sentences
+    new theme
     ... 
-  Surplus blank lines are acknowledged and ignored
+  Surplus blank lines between themes are acknowledged and ignored
   """
-  if data != "words" and data != "sentences":
-    print("Wrong data argument.")
-    return []
 
   f = open("./"+file, "r")
   lines = f.readlines()
   f.close()
 
-  if data == "words":
-    result = [{"theme":"", "words":[], "score": 0}]
+  result = [{"theme":"", "data":[], "score": 0}]
 
-    for index in range(len(lines)):
-      if lines[index].strip().isnumeric():
-        result[-1]["score"]+=float(lines[index].strip())
+  for index in range(len(lines)):
+    if lines[index].strip().isnumeric():
+      # If the line is a number, it is recognised as the base score of the current theme
+      result[-1]["score"]+=float(lines[index].strip())
 
-      elif lines[index] == "\n":
-        if index == 0 or index == len(lines)-1 or lines[index+1] == "\n":
-          # Surplus blankline ignored
-          continue
-
-        else:
-          result.append({"theme":"", "words":[], "score": 0})
-
-      elif index == 0 or lines[index-1] == "\n":
-        result[-1]["theme"] = lines[index].strip()
+    elif lines[index] == "\n":
+      if index == 0 or index == len(lines)-1 or lines[index+1] == "\n":
+        # Surplus blankline ignored
+        continue
 
       else:
-        result[-1]["words"].append(lines[index].strip())
+        # Blankline means new theme
+        result.append({"theme":"", "data":[], "score": 0})
 
-  else:
-    result = [{"theme":"", "sentences":[]}]
+    elif index == 0 or lines[index-1] == "\n":
+      # The first line of a data block is the theme
+      result[-1]["theme"] = lines[index].strip()
 
-    for index in range(len(lines)):
-      if lines[index] == "\n":
-        if index == 0 or index == len(lines)-1 or lines[index+1] == "\n":
-          # Surplus blankline ignored
-          continue
+    else:
+      # Other lines are data ones
+      result[-1]["data"].append(lines[index].strip())
 
-        else:
-          result.append({"theme":"", "sentences":[]})
-
-      elif index == 0 or lines[index-1] == "\n":
-        result[-1]["theme"] = lines[index].strip()
-
-      else:
-        result[-1]["sentences"].append(lines[index].strip())
-  
   return result
 
 
