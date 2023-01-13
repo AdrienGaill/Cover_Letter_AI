@@ -64,7 +64,7 @@ def get_cover_letter(paragraphs: list, offer_title: str):
     for paragraph in paragraphs:
         elements.append(Paragraph(paragraph+"<br/><br/>", style=main_style))
 
-    elements.append(Paragraph("Therefore I would like to propose that we meet in order to convince you of my motivation and I am already enclosing my CV to that effect. I look forward to your reply and thank you in advance for your time and attention.<br/><br/>", style=main_style))
+    elements.append(Paragraph("Therefore I would like to propose that we meet in order to convince you of my motivation and I am already enclosing my resume to that effect. I look forward to your reply and thank you in advance for your time and attention.<br/><br/>", style=main_style))
 
     elements.append(Paragraph("Sincerely,<br/><br/>", style=main_style))
     
