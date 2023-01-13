@@ -6,8 +6,13 @@ from reportlab.lib.styles import ParagraphStyle
 
 
 def get_cover_letter(paragraphs: list, offer_title: str):
-    """ Generate the cover letter in a pdf file """
+    """
+    Generate the cover letter in a pdf file
+        "paragraph" is a list of strings, one per paragraph
+        "offer_title" is a string
+    """
 
+    print("Generating cover letter")
     fileName = 'Cover Letter Adrien Gaillard.pdf'
 
     # Create the template object
@@ -54,10 +59,16 @@ def get_cover_letter(paragraphs: list, offer_title: str):
     AI_project = "First of all, I didn't write this cover letter. Indeed, it was created by an algorithm using NLP to reflect your job offer's requirements. You can learn more about <a color='blue' href=https://github.com/AdrienGaill/Cover_Letter_AI/>this project</a> on my GitHub.<br/><br/>"
     elements.append(Paragraph(AI_project, style=main_style))
 
-    internship = f'''Currently on a gap year after my 2nd year at Ecole Centrale de Nantes, a top French engineering school, I am seeking an internship or a fixed-term contract of at least 6 months in an IT related field, preferably AI, located in Germany, in Berlin.
-        Thus I'm interested in the <b>{offer_title}</b> position you offer.<br/><br/>
-        '''
-        
+    if offer_title == "":
+        internship = '''Currently on a gap year after my 2nd year at Ecole Centrale de Nantes, a top French engineering school, I am seeking an internship or a fixed-term contract of at least 6 months in an IT related field, preferably AI, located in Germany, in Berlin.
+            Thus, I am offering you my unsolicited application to join your team for a position related to AI.<br/><br/>
+            '''
+
+    else:
+        internship = f'''Currently on a gap year after my 2nd year at Ecole Centrale de Nantes, a top French engineering school, I am seeking an internship or a fixed-term contract of at least 6 months in an IT related field, preferably AI, located in Germany, in Berlin.
+            Thus I'm interested in the <b>{offer_title}</b> position you offer.<br/><br/>
+            '''
+
     elements.append(Paragraph(internship, style=main_style))
 
     # Add paraphrased paragraphs
