@@ -13,7 +13,7 @@ def get_cover_letter(paragraphs: list, offer_title: str):
     """
 
     print("Generating cover letter")
-    fileName = 'Cover Letter Adrien Gaillard.pdf'
+    fileName = 'Cover Letter Adrien GAILLARD.pdf'
 
     # Create the template object
     pdf = SimpleDocTemplate(fileName)

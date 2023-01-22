@@ -30,4 +30,5 @@ Don't hesitate to contact me if you need more information or if you have an oppo
 </p>
 
 My mail : [adrien.gaillard.pro@gmail.com](mailto:adrien.gaillard.pro@gmail.com)</br>
-My LinkedIn : [Adrien Gaillard](https://www.linkedin.com/in/AdrienGaillard/)
+My LinkedIn : [Adrien Gaillard](https://www.linkedin.com/in/AdrienGaillard/)</br>
+My GitHub : [Adrien Gailard](https://github.com/AdrienGaill)
