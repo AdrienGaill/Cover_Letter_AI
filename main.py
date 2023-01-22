@@ -82,19 +82,20 @@ def main(source: str, data_type: str = "url"):
     languages = list(filter(lambda elt: elt["score"] > 0, languages))
     languages = [x["language"] for x in languages]
 
-    # Structure the list of relatable languages in a sentence
-    languages_list = ""
-    for i in range(len(languages)):
-        if i == 0:
-            languages_list += languages[0]
-        elif i == len(languages)-1:
-            languages_list += " and " + languages[i]
-        else:
-            languages_list += ", " + languages[i]
-    language_sentence = f" I have experience in {languages_list} programming."
+    if len(languages) > 0:
+        # Structure the list of relatable languages (if any) in a sentence 
+        languages_list = ""
+        for i in range(len(languages)):
+            if i == 0:
+                languages_list += languages[0]
+            elif i == len(languages)-1:
+                languages_list += " and " + languages[i]
+            else:
+                languages_list += ", " + languages[i]
+        language_sentence = f" I have experience in {languages_list} programming."
 
-    # Add it to the experience paragraph 
-    experience += language_sentence
+        # Add it to the experience paragraph 
+        experience += language_sentence
 
     # Generate the pdf file with the paraphrased paragraphs
     paragraphs = [assets, experience]
