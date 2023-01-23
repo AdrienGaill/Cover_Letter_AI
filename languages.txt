@@ -1,6 +1,6 @@
 languages
 python
-cc++
+c++
 react
 typescript
 nestjs
