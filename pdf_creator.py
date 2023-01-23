@@ -56,7 +56,7 @@ def get_cover_letter(paragraphs: list, offer_title: str):
 
     elements.append(Paragraph("Dear Sir or Madam,<br/><br/>", style = main_style))
 
-    AI_project = "First of all, I didn't write this cover letter. Indeed, it was created by an algorithm using NLP to reflect your job offer's requirements. You can learn more about <a color='blue' href=https://github.com/AdrienGaill/Cover_Letter_AI/>this project</a> on my GitHub.<br/><br/>"
+    AI_project = "First of all, I didn't write this cover letter. Indeed, it was created by an algorithm of my own using NLP to reflect your job offer's requirements. You can learn more about <a color='blue' href=https://github.com/AdrienGaill/Cover_Letter_AI/>this project</a> on my GitHub.<br/><br/>"
     elements.append(Paragraph(AI_project, style=main_style))
 
     if offer_title == "":
